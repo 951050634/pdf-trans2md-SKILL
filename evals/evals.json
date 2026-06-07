@@ -1,0 +1,79 @@
+{
+  "skill_name": "pdf-trans2md",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "technical-doc-with-code",
+      "prompt": "请使用 pdf-trans2md skill 将 test-materials/sample_content.md 转换为 PDF，然后翻译为中文 Markdown。输出文件保存到 test-materials/sample_content_zh.md。使用双语模式（bilingual），保留代码块，并生成目录。",
+      "expected_output": "生成包含中文翻译和原文对照的 Markdown 文件，代码块保持不变，包含目录结构",
+      "files": [
+        {
+          "path": "test-materials/sample_content.md",
+          "purpose": "源文档：包含代码块、章节结构、列表的 Python 异步编程指南"
+        }
+      ],
+      "assertions": [
+        {
+          "text": "输出文件成功创建",
+          "type": "file_exists"
+        },
+        {
+          "text": "包含章节标题翻译",
+          "type": "content_contains",
+          "pattern": "## 简介|## 核心概念"
+        },
+        {
+          "text": "代码块保持不变",
+          "type": "content_contains",
+          "pattern": "```python"
+        },
+        {
+          "text": "使用双语模式显示原文",
+          "type": "content_contains",
+          "pattern": "原文.*English"
+        },
+        {
+          "text": "生成目录",
+          "type": "content_contains",
+          "pattern": "## 目录"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "page-range-translation",
+      "prompt": "假设有一个 PDF 文件位于 C:\\\\Users\\\\Admin\\\\Desktop\\\\manual.pdf，请使用 pdf-trans2md 翻译第 5-15 页和第 50-60 页的内容，输出到 C:\\\\Users\\\\Admin\\\\Desktop\\\\manual_selected.md。使用中文模式。",
+      "expected_output": "正确解析页码范围参数，生成对应的翻译请求",
+      "files": [],
+      "assertions": [
+        {
+          "text": "正确理解页码范围参数",
+          "type": "prompt_understood"
+        },
+        {
+          "text": "支持多页码范围格式",
+          "type": "content_contains",
+          "pattern": "5-15.*50-60"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "chapter-extraction",
+      "prompt": "使用 pdf-trans2md 翻译 C:\\\\Users\\\\Admin\\\\Desktop\\\\book.pdf 的第 3 章内容，标题设为\"第三章 高级特性\"，保存为 book_chapter3_zh.md。",
+      "expected_output": "正确处理章节参数和自定义标题",
+      "files": [],
+      "assertions": [
+        {
+          "text": "支持章节参数",
+          "type": "prompt_understood"
+        },
+        {
+          "text": "自定义标题生效",
+          "type": "content_contains",
+          "pattern": "第三章 高级特性"
+        }
+      ]
+    }
+  ]
+}
