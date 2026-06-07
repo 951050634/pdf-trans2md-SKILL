@@ -56,6 +56,7 @@ allowed-tools: Read, Write, Bash, AskUserQuestion
 - `--preserve-code`: 保留代码块的原始格式（默认开启）
 - `--toc`: 在输出开头生成目录（默认开启）
 - `--no-structure`: 禁用结构检测，使用纯文本模式
+- `--keep-intermediate`: 保留中间文件（翻译指南和结构化 JSON），默认在翻译完成后自动清理
 
 ## 工作流程
 
@@ -82,6 +83,9 @@ allowed-tools: Read, Write, Bash, AskUserQuestion
 1. **生成 Markdown**：根据翻译结果生成最终文件
 2. **添加目录**：自动生成或更新目录
 3. **保存文件**：输出到指定位置
+4. **清理中间文件**：自动删除 `*_translation_guide.md` 和 `*_structured.json`（除非使用 `--keep-intermediate`）
+
+## 实现细节
 
 ## 实现细节
 

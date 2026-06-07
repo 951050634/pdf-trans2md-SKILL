@@ -65,6 +65,7 @@ pip install pypdf
 - ✅ 生成目录（TOC）
 - ✅ 自定义输出标题和路径
 - ✅ 增强的代码块检测（缩进 + 关键字模式）
+- ✅ 自动清理中间文件（翻译完成后删除 `*_translation_guide.md` 和 `*_structured.json`）
 
 ## 使用示例
 
@@ -104,6 +105,9 @@ pip install pypdf
 
 # 仅准备文件（不执行翻译）
 /pdf-trans2md doc.pdf --prepare-only
+
+# 保留中间文件（默认会在翻译完成后自动清理）
+/pdf-trans2md doc.pdf --keep-intermediate
 ```
 
 ## 翻译规则（Claude 遵循）

@@ -297,6 +297,24 @@ def save_intermediate_files(
     return guide_path, json_path
 
 
+def cleanup_intermediate_files(guide_path: Path, json_path: Path):
+    """Remove intermediate files after successful translation
+
+    Args:
+        guide_path: Path to the translation guide file
+        json_path: Path to the structured JSON file
+    """
+    try:
+        if guide_path.exists():
+            guide_path.unlink()
+            print(f"[清理] Removed: {guide_path.name}")
+        if json_path.exists():
+            json_path.unlink()
+            print(f"[清理] Removed: {json_path.name}")
+    except Exception as e:
+        print(f"[警告] Failed to remove intermediate files: {e}", file=sys.stderr)
+
+
 def main():
     # Fix Windows console encoding
     if sys.platform == 'win32':
@@ -331,6 +349,8 @@ Examples:
                         help='Disable structure detection, use plain text mode')
     parser.add_argument('--prepare-only', action='store_true',
                         help='Only prepare files, do not attempt translation')
+    parser.add_argument('--keep-intermediate', action='store_true',
+                        help='Keep intermediate files (translation guide and JSON) after translation')
 
     args = parser.parse_args()
 
@@ -383,13 +403,13 @@ Examples:
     # Save intermediate files
     guide_path, json_path = save_intermediate_files(translation_data, guide, output_dir, base_name)
 
-    print(f"\n📋 Prepared translation task:")
+    print(f"\n[准备] Prepared translation task:")
     print(f"   Guide: {guide_path}")
     print(f"   Data:  {json_path}")
     print(f"   Blocks to translate: {translation_data['translatable_blocks']}")
 
     if args.prepare_only:
-        print("\n✓ Preparation complete. Claude can now translate using the guide.")
+        print("\n[✓] Preparation complete. Claude can now translate using the guide.")
         print(f"\nNext steps:")
         print(f"  1. Read: {guide_path}")
         print(f"  2. Follow the translation rules in SKILL.md")
@@ -409,6 +429,10 @@ Examples:
         mode_suffix = '_bilingual' if args.mode == 'bilingual' else '_zh'
         print(f"  {output_dir / f'{base_name}{mode_suffix}.md'}")
     print(f"\nFollow the rules in SKILL.md for translation quality.")
+
+    # Note about intermediate file cleanup
+    if not args.keep_intermediate:
+        print(f"\n[提示] 中间文件将在翻译完成后自动清理（使用 --keep-intermediate 保留）")
 
 
 if __name__ == '__main__':
