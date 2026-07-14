@@ -1,0 +1,4 @@
+interface:
+  display_name: "PDF 多模态翻译为 Markdown"
+  short_description: "视觉优先翻译双栏论文并生成中文或中英对照 Markdown"
+  default_prompt: "使用 $pdf-trans2md 按视觉阅读顺序翻译这份 PDF，并输出结构清晰的中文 Markdown。"
