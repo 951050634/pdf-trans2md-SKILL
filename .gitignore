@@ -45,3 +45,8 @@ htmlcov/
 # Temporary files
 *.tmp
 *.log
+
+# pdf-trans2md generated intermediates
+*_pages/
+*_text_units.json
+*_text_translation_guide.md

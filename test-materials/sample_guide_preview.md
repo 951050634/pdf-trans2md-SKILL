@@ -1,119 +1,44 @@
-# PDF 翻译任务指南
+# 多模态视觉翻译预览
 
-请按照以下规则翻译本 PDF 提取的内容：
+此预览展示 `--mode bilingual` 的强制输出契约。PDF 页面应先由当前 AI 模型进行视觉版面分析；不得默认读取 PDF 文本层。
 
-## 翻译模式
-模式: bilingual
+## 3. Experimental Results
 
-## 翻译规则
+> **译文标题：3. 实验结果**
 
-### 1. 代码块 (code) - 绝对不翻译
-- 保持所有代码内容完全不变
-- 保留所有缩进、注释、字符串
-- 代码中的自然语言注释可选择性翻译（双语模式）
+The proposed method improves multimodal representation learning across all benchmark datasets.
 
-### 2. 章节标题 (chapter, section) - 准确翻译
-- 保持标题层级（# 数量）
-- 技术术语首次出现可保留英文+中文
+> **译文：**
+> 所提出的方法在所有基准数据集上均改进了多模态表征学习。
 
-### 3. 段落 (paragraph) - 流畅翻译
-- 保持技术术语一致性
-- 代码标识符、API 名称保持英文
+The main contributions are:
 
-### 4. 列表项 (bullet) - 翻译文本
-- 保持列表标记符（-, *, •）
-- 保持嵌套关系
+- layout-aware visual reading;
+- robust cross-column ordering;
+- terminology-consistent translation.
 
-### 5. 双语模式特殊处理
-- 保留原文引用块：> **原文 (English):**
-- 中文翻译在前，原文在引用块中
+> **译文：**
+> 主要贡献包括：
+>
+> - 感知版面的视觉阅读；
+> - 稳健的跨栏顺序处理；
+> - 术语一致的翻译。
 
-## 输出格式
+```python
+result = model.predict(inputs)
+```
 
-文档标题: Python 异步编程指南
+代码块只保留一份，不机械生成双语副本。
 
-## 内容统计
-- 总块数: 116
-- 需翻译块数: 45
-- 代码块数: 30
+**Figure 2. Accuracy under different layout conditions.**
 
----
+> **译文：**
+> **图 2．不同版面条件下的准确率。**
 
-## 待翻译内容（结构化 JSON）
+## 页面检查清单
 
-以下是提取的结构化内容，请逐块翻译：
-
-```json
-{
-  "mode": "bilingual",
-  "units": [
-    {
-      "type": "code",
-      "original": "# Python 异步编程指南",
-      "translate": false,
-      "preserve_format": true
-    },
-    {
-      "type": "empty",
-      "original": "",
-      "translate": false,
-      "preserve_format": false
-    },
-    {
-      "type": "code",
-      "original": "## 1. 简介",
-      "translate": false,
-      "preserve_format": true
-    },
-    {
-      "type": "empty",
-      "original": "",
-      "translate": false,
-      "preserve_format": false
-    },
-    {
-      "type": "paragraph",
-      "original": "异步编程是现代 Python 开发中的重要范式。它允许程序在等待 I/O 操作时执行其他任务，从而提高整体效率。",
-      "translate": true,
-      "preserve_format": false
-    },
-    {
-      "type": "empty",
-      "original": "",
-      "translate": false,
-      "preserve_format": false
-    },
-    {
-      "type": "code",
-      "original": "## 2. 核心概念",
-      "translate": false,
-      "preserve_format": true
-    },
-    {
-      "type": "empty",
-      "original": "",
-      "translate": false,
-      "preserve_format": false
-    },
-    {
-      "type": "code",
-      "original": "### 2.1 协程（Coroutines）",
-      "translate": false,
-      "preserve_format": true
-    },
-    {
-      "type": "empty",
-      "original": "",
-      "translate": false,
-      "preserve_format": false
-    },
-    {
-      "type": "paragraph",
-      "original": "协程是异步编程的基本构建块。在 Python 中，协程使用 `async def` 关键字定义。",
-      "translate": true,
-      "preserve_format": false
-    },
-    {
-  
-
-...[truncated]...
+- 先识别跨栏标题和摘要。
+- 双栏正文先左栏、后右栏。
+- 图注不得拼入邻近正文。
+- 中文译文必须在原文之后，并位于引用块。
+- 未经用户明确要求，不调用 `pypdf.extract_text()`。
